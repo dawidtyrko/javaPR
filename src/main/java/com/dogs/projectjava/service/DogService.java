@@ -4,6 +4,7 @@ import com.dogs.projectjava.entity.Dog;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -15,18 +16,14 @@ import java.util.Optional;
 
 
 public class DogService {
-   // @Value("${dog.api.url}")
-    //private String apiUrl;
 
-   // @Value("${dog.api.key}")
-    //private String apiKey;
 
     public Optional<Dog> getDogByName(String dogName) {
         Dog dog = new Dog();
-        Optional<Dog> dogg = null;
+        Optional<Dog> dogg = Optional.empty();
         try {
+
             String urlPrep = "https://api.api-ninjas.com/v1/dogs?name=";
-            //String dogName = "labrador"; // Replace with the desired dog name
             String apiKey = "IWSSMJcs6KDl10HMPDHNiA==JyBlVCJUqzdWiKEd";
             URL url = new URL(urlPrep + dogName);
 
@@ -46,14 +43,11 @@ public class DogService {
                 in.close();
                 Type listType = new TypeToken<List<Dog>>() {
                 }.getType();
-                // Parse JSON response using Jackson
+
                 ObjectMapper objectMapper = new ObjectMapper();
                 Gson gson = new Gson();
                 List<Dog> dogs = gson.fromJson(content.toString(), listType);
-                //JsonNode jsonNode = objectMapper.readTree(content.toString());
-                // dog = objectMapper.readValue(content.toString(), Dog.class);
-                // Now you can work with the JSON data using the JsonNode object
-                // System.out.println("Dog Info: " + jsonNode);
+
                 for (Dog dog1 : dogs) {
                     System.out.println(dog1.getName());
                 }

@@ -8,8 +8,17 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Dog {
+
+
     @JsonProperty("image_link")
     private String imageLink;
+    public String getImageLink() {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
+    }
 
     @JsonProperty("good_with_children")
     private int goodWithChildren;
@@ -51,15 +60,44 @@ public class Dog {
     private int minHeightMale;
 
     @JsonProperty("min_height_female")
-    private int minHeightFemale;
+    private Integer minHeightFemale;
 
 
     @JsonProperty("min_weight_male")
-    private int minWeightMale;
+    private Integer minWeightMale;
 
     @JsonProperty("min_weight_female")
     private int minWeightFemale;
 
     private String name;
 
+    @Override
+    public String toString() {
+        return "Dog{" +
+                "imageLink='" + imageLink + '\'' +
+                ", goodWithChildren=" + goodWithChildren +
+                ", goodWithOtherDogs=" + goodWithOtherDogs +
+                ", shedding=" + shedding +
+                ", grooming=" + grooming +
+                ", drooling=" + drooling +
+                ", coatLength=" + coatLength +
+                ", goodWithStrangers=" + goodWithStrangers +
+                ", playfulness=" + playfulness +
+                ", protectiveness=" + protectiveness +
+                ", trainability=" + trainability +
+                ", energy=" + energy +
+                ", barking=" + barking +
+                ", minLifeExpectancy=" + minLifeExpectancy +
+                ", maxLifeExpectancy=" + maxLifeExpectancy +
+                ", maxHeightMale=" + maxHeightMale +
+                ", maxHeightFemale=" + maxHeightFemale +
+                ", maxWeightMale=" + maxWeightMale +
+                ", maxWeightFemale=" + maxWeightFemale +
+                ", minHeightMale=" + minHeightMale +
+                ", minHeightFemale=" + minHeightFemale +
+                ", minWeightMale=" + minWeightMale +
+                ", minWeightFemale=" + minWeightFemale +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

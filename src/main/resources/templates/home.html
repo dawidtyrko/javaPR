@@ -7,21 +7,21 @@
 </head>
 <body>
 <h2>Home page</h2>
-<br>
-<hr>
-
+    <br>
+    <hr>
+    <!--Display currently logged-in user info -->
 <p>
     User: <span sec:authentication="principal.username"></span>
     <br><br>
     Role(s): <span sec:authentication="principal.authorities"></span>
 </p>
 
-<a href="/dogs">Your dogs based on data</a>
-<a href="/favoriteDogs">Your favorite dogs</a>
+    <a href="/system/dogs">Your dogs based on data</a>
 
-<hr>
-<form action="#" th:action="@{/logout}" method="post">
-    <input type="submit" value="logout">
-</form>
+    <br><br>
+    <!-- Logout button -->
+    <form action="#" th:action="@{/logout}" method="post">
+        <input type="submit" value="logout">
+    </form>
 </body>
 </html>

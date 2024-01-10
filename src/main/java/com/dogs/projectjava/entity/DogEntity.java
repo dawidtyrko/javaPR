@@ -1,13 +1,21 @@
 package com.dogs.projectjava.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "dog")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class DogEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,4 +38,7 @@ public class DogEntity {
 
     @Column(name = "energy")
     private int energy;
+
+    @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<FavoriteDog> favoriteDogs = new HashSet<>();
 }

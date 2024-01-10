@@ -6,15 +6,16 @@
 </head>
 <body>
     <p>dog</p>
-    <span th:text="${dog.get().name}"></span><br>
-    <span th:text="${dog.get().getBarking()}"></span><br>
-    <span th:text="${dog.get().getGoodWithOtherDogs()}"></span>
-    <span th:text="${dog.get().getCoatLength()}"></span>
-    <span th:text="${dog.get().getBarking()}"></span>
-    <span th:text="${dog.get().getBarking()}"></span>
-    <span th:text="${dog.get().getBarking()}"></span>
-    <span th:text="${dog.get().getBarking()}"></span>
-    <span th:text="${dog.get().getBarking()}"></span>
-
+<!--    <span th:text="${dog.get().name}"></span><br>-->
+<!--    <span th:text="${dog.get().getBarking()}"></span><br>-->
+<!--    <span th:text="${dog.get().getGoodWithOtherDogs()}"></span>-->
+<!--    <span th:text="${dog.get().getCoatLength()}"></span>-->
+<!--    <span th:text="${dog.get().getBarking()}"></span>-->
+<!--    <span th:text="${dog.get().getBarking()}"></span>-->
+<!--    <span th:text="${dog.get().getBarking()}"></span>-->
+<!--    <span th:text="${dog.get().getBarking()}"></span>-->
+    <span th:text="${dog.getName()}"></span>
+    <img th:src="${dog.getImageLink()}" alt="dog image">
+<a href="/">Go back</a>
 </body>
 </html>

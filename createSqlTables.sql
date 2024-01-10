@@ -1,11 +1,8 @@
 create schema dogs_project;
-create table dogs_project.User(
-    Id int ,
-    first_name varchar(50),
-    last_name varchar(50),
-    username varchar(60) unique primary key ,
-    password varchar(70),
-    enabled  boolean default true
+create table dogs_project.users(
+    username varchar(60) unique primary key not null ,
+    password varchar(70) not null ,
+    enabled  tinyint not null
 );
 create  table dogs_project.Dog(
     Id int primary key auto_increment,
@@ -17,11 +14,23 @@ create  table dogs_project.Dog(
     energy int
 );
 
-create table dogs_project.roles(
-    username varchar(60) primary key,
-    role varchar(60) not null,
-    foreign key (username) references User(username)
+create table dogs_project.authorities(
+    username varchar(60) not null ,
+    authority varchar(60) not null,
+    unique key authorities_idx_1 (username,authority),
+    constraint authorities_ibfk_1
+    foreign key (username) references users(username)
 );
-INSERT INTO dogs_project.User(Id,first_name, last_name, username, password) values (1,'Jan','Kowalski','jano','{bcrypt}$2a$10$MIlsRU9rS3qtndVwxLMBIuUJGDnduWcvQ/AoAMgpMX5y2qTWTfTgm');
+-- bcrypt password fun123
+INSERT INTO dogs_project.users(username, password,enabled) values ('jano','{bcrypt}$2a$10$NlXsSaheyHCT3pDd9XSWo.tkR0bNmyvDG9Hv2r7.vGozrRqZGUdlW',1);
+INSERT INTO dogs_project.users(username, password,enabled) values ('dave','{bcrypt}$2a$10$NlXsSaheyHCT3pDd9XSWo.tkR0bNmyvDG9Hv2r7.vGozrRqZGUdlW',1);
+INSERT INTO dogs_project.users(username, password,enabled) values ('jacob','{bcrypt}$2a$10$NlXsSaheyHCT3pDd9XSWo.tkR0bNmyvDG9Hv2r7.vGozrRqZGUdlW',1);
 insert into dogs_project.Dog(name, image_link, playfulness, good_with_children, good_with_other_dogs, energy) values ("labrador retriever","https://api-ninjas.com/images/dogs/labrador_retriever.jpg",5,5,5,3);
-insert into dogs_project.roles(username, role) VALUES ('jano','ADMIN');
+insert into dogs_project.authorities(username, authority) VALUES ('jano','ROLE_MANAGER');
+insert into dogs_project.authorities(username, authority) VALUES ('jano','ROLE_USER');
+insert into dogs_project.authorities(username, authority) VALUES ('dave','ROLE_ADMIN');
+insert into dogs_project.authorities(username, authority) VALUES ('dave','ROLE_MANAGER');
+insert into dogs_project.authorities(username, authority) VALUES ('dave','ROLE_USER');
+insert into dogs_project.authorities(username, authority) VALUES ('jacob','ROLE_USER');
+
+

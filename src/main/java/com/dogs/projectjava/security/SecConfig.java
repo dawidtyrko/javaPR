@@ -18,23 +18,21 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 public class SecConfig {
 
-//        @Bean
-//        public UserDetailsManager userDetailsManager(DataSource dataSource) {
-//            JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-//
-//            //query to retrieve user by username
-//            jdbcUserDetailsManager.setUsersByUsernameQuery("select username,password,enabled from user where username=?");
-//
-//            //query to retrieve authorities/roles
-//            jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("select username,role from roles where username=?");
-//            return jdbcUserDetailsManager;
-//        }
+        @Bean
+        public UserDetailsManager userDetailsManager(DataSource dataSource) {
+
+            return new JdbcUserDetailsManager(dataSource);
+        }
 
 
 
         @Bean
         SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
             httpSecurity.authorizeHttpRequests(config -> config
+                            .requestMatchers("/").hasRole("USER")
+                            .requestMatchers("/list").hasRole("USER")
+                            .requestMatchers("/system/**").hasRole("MANAGER")
+                            .requestMatchers("/admin/**").hasRole("ADMIN")
                             .anyRequest()
                             .authenticated()
                     )
@@ -44,31 +42,31 @@ public class SecConfig {
                             .permitAll()
                     )
                     .logout(LogoutConfigurer::permitAll
-                    );
-//                    .exceptionHandling(configurer -> configurer.accessDeniedPage("/access-denied"));
+                    )
+                   .exceptionHandling(configurer -> configurer.accessDeniedPage("/access-denied"));
             return httpSecurity.build();
         }
 
-    @Bean
-    InMemoryUserDetailsManager userDetailsManager(){
-
-        UserDetails john = User.builder()
-                .username("john")
-                .password("{noop}test123")
-                .roles("USER")
-                .build();
-        UserDetails mary = User.builder()
-                .username("mary")
-                .password("{noop}test123")
-                .roles("USER","MANAGER")
-                .build();
-        UserDetails susan = User.builder()
-                .username("susan")
-                .password("{noop}test123")
-                .roles("USER","MANAGER","ADMIN")
-                .build();
-        return new InMemoryUserDetailsManager(john,mary,susan);
-    }
+//    @Bean
+//    InMemoryUserDetailsManager userDetailsManager(){
+//
+//        UserDetails john = User.builder()
+//                .username("john")
+//                .password("{noop}test123")
+//                .roles("USER")
+//                .build();
+//        UserDetails mary = User.builder()
+//                .username("mary")
+//                .password("{noop}test123")
+//                .roles("USER","MANAGER")
+//                .build();
+//        UserDetails susan = User.builder()
+//                .username("dave")
+//                .password("{noop}test123")
+//                .roles("USER","MANAGER","ADMIN")
+//                .build();
+//        return new InMemoryUserDetailsManager(john,mary,susan);
+//    }
 
     }
 

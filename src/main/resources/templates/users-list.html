@@ -8,32 +8,36 @@
 </head>
 <body>
 <div class="container">
-    <h3>Employee Directory</h3>
+    <h3>User list</h3>
     <hr>
 
-<!--    <a th:href="@{/employees/addForm}" class="btn btn-primary btn-sm mb-3">-->
-<!--        Add Employee-->
-<!--    </a>-->
+    <a th:href="@{/}" class="btn btn-primary btn-sm mb-3">
+        Go back
+    </a>
 
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
         <tr>
-            <th>username</th>
+            <th>Username</th>
+            <th>Enabled</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="tempUser : ${users}" >
             <td th:text="${tempUser.username}"/>
+            <td th:text="${tempUser.enabled==1? 'Enabled':'Disabled'}"/>
             <td>
-<!--                <a th:href="@{/employees/updateForm(employeeId=${tempEmployee.id})}"-->
-<!--                   class="btn btn-info btn-sm">-->
-<!--                    Update-->
-<!--                </a>-->
-<!--                <a th:href="@{/employees/delete(employeeId=${tempEmployee.id})}"-->
-<!--                   class="btn btn-danger btn-sm"-->
-<!--                   onclick="if (!(confirm('Are you sure?'))) return false">-->
-<!--                    Delete-->
-<!--                </a>-->
+                <a th:href="@{/admin/disable(username=${tempUser.username})}"
+                   class="btn btn-danger btn-sm"
+                   onclick="if (!(confirm('Are you sure?'))) return false">
+                    Disable
+                </a>
+                <a th:href="@{/admin/enable(username=${tempUser.username})}"
+                   class="btn btn-info btn-sm"
+                   onclick="if (!(confirm('Are you sure?'))) return false">
+                    Enable
+                </a>
             </td>
         </tr>
         </tbody>

@@ -11,20 +11,20 @@
     <h3>Dog list</h3>
     <hr>
 
-    <a th:href="@{/}" class="btn btn-primary btn-sm mb-3">
-        Go back
-    </a>
+        <a th:href="@{/}" class="btn btn-primary btn-sm mb-3">
+            Go back
+        </a>
 
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
         <tr>
-            <th>Name</th>
-            <th>Playfulness</th>
-            <th>Good with children</th>
-            <th>Good with dogs</th>
-            <th>Energy level</th>
-            <th>Image</th>
-
+            <th>name</th>
+            <th>playfulness</th>
+            <th>good with children</th>
+            <th>good with dogs</th>
+            <th>energy level</th>
+            <th>image</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -38,6 +38,13 @@
                 <img th:src="${tempDog.imageLink}" alt="s" style="max-width:255px;max-height: 170px">
             </td>
 
+            <td>
+                <a th:href="@{/admin/delete(dogId=${tempDog.id})}"
+                   class="btn btn-danger btn-sm"
+                   onclick="if (!(confirm('Are you sure?'))) return false">
+                    Delete
+                </a>
+            </td>
         </tr>
         </tbody>
 

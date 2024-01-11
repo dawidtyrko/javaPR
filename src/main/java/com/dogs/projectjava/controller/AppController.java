@@ -25,8 +25,6 @@ public class AppController {
         this.userService = userService;
     }
 
-
-
     @GetMapping("/")
     public String showHome(){
         return "home";
@@ -44,10 +42,7 @@ public class AppController {
             return "dogs";
         }
     }
-    @GetMapping("/system/getNewDog")
-    public String getNewDog(Model model){
-        return "new-dog";
-    }
+
     @GetMapping("/admin/list")
     public String showUsers(Model model){
         List<User> users = userService.getAllUsers();
@@ -60,6 +55,27 @@ public class AppController {
         List<DogEntity> dogEntityList = dogService.getAllDogs();
         model.addAttribute("dogs", dogEntityList);
         return "show-dogs";
+    }
+    @GetMapping("/admin/dogList")
+    public String showDogs(Model model){
+        List<DogEntity> dogEntityList = dogService.getAllDogs();
+        model.addAttribute("dogs", dogEntityList);
+        return "dog-list";
+    }
+    @GetMapping("/admin/delete")
+    public String deleteDog(@RequestParam("dogId") int id){
+        dogService.deleteById(id);
+        return "redirect:/admin/dogList";
+    }
+    @GetMapping("/admin/disable")
+    public String disableUser(@RequestParam("username")String username){
+        userService.disableByUsername(username);
+        return "redirect:/admin/list";
+    }
+    @GetMapping("/admin/enable")
+    public String enableUser(@RequestParam("username")String username){
+        userService.enableByUsername(username);
+        return "redirect:/admin/list";
     }
 
 

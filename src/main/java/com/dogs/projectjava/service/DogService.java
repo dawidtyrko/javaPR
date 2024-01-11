@@ -5,6 +5,7 @@ import com.dogs.projectjava.entity.DogEntity;
 import com.dogs.projectjava.repo.DogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,5 +36,10 @@ public class DogService {
 
     public List<DogEntity> getAllDogs(){
         return dogRepository.findAll();
+    }
+
+    @Transactional
+    public void deleteById(int id){
+        dogRepository.deleteById(id);
     }
 }

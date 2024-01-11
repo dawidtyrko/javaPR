@@ -39,6 +39,4 @@ public class DogEntity {
     @Column(name = "energy")
     private int energy;
 
-    @OneToMany(mappedBy = "dog", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<FavoriteDog> favoriteDogs = new HashSet<>();
 }

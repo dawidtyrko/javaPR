@@ -3,6 +3,7 @@ package com.dogs.projectjava.service;
 import com.dogs.projectjava.entity.Dog;
 import com.dogs.projectjava.entity.DogEntity;
 import com.dogs.projectjava.repo.DogRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +41,17 @@ public class DogService {
 
     @Transactional
     public void deleteById(int id){
-        dogRepository.deleteById(id);
+        try {
+            dogRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Dog with ID " + id + " not found");
+        }
+    }
+    public DogEntity findDogByName(String name){
+        return dogRepository.findByName(name);
+    }
+
+    public List<String> findDistinctNames(){
+        return dogRepository.findDistinctDogNames();
     }
 }

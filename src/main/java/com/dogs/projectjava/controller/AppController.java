@@ -6,6 +6,7 @@ import com.dogs.projectjava.entity.User;
 import com.dogs.projectjava.service.DogApi;
 import com.dogs.projectjava.service.DogService;
 import com.dogs.projectjava.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +43,18 @@ public class AppController {
             return "dogs";
         }
     }
+//    @GetMapping("/list/{name}")
+//    public String newDog(@PathVariable String name,Model model){
+//
+//            DogEntity dog = dogService.findDogByName(name);
+//            if(dog != null){
+//                model.addAttribute("dog",dog);
+//                return "dog-from-list";
+//            }else{
+//                return "show-dogs";
+//            }
+//    }
+
 
     @GetMapping("/admin/list")
     public String showUsers(Model model){
@@ -53,12 +66,16 @@ public class AppController {
     @GetMapping("/list")
     public String showAllDogs(Model model){
         List<DogEntity> dogEntityList = dogService.getAllDogs();
+        List<String> dogNames = dogService.findDistinctNames();
+        model.addAttribute("names",dogNames);
         model.addAttribute("dogs", dogEntityList);
         return "show-dogs";
     }
     @GetMapping("/admin/dogList")
     public String showDogs(Model model){
         List<DogEntity> dogEntityList = dogService.getAllDogs();
+        List<String> dogNames = dogService.findDistinctNames();
+        model.addAttribute("names",dogNames);
         model.addAttribute("dogs", dogEntityList);
         return "dog-list";
     }

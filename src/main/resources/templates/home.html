@@ -46,7 +46,6 @@
     </div>
 
     <nav class="mb-4">
-        <a sec:authorize="hasRole('MANAGER')" th:href="@{/system/getNewDog}" class="btn btn-primary custom-nav-link">Get new dog</a>
         <a th:href="@{/list}" class="btn btn-primary custom-nav-link">Show dogs</a>
         <a sec:authorize="hasRole('ADMIN')" th:href="@{admin/list}" class="btn btn-primary custom-nav-link">Show users list</a>
         <a sec:authorize="hasRole('ADMIN')" th:href="@{admin/dogList}" class="btn btn-primary custom-nav-link">Show dogs list</a>
@@ -54,7 +53,7 @@
 
     <div class="mb-4" sec:authorize="hasRole('MANAGER')">
         <form th:action="@{/system/dogs}" method="post" class="form-inline">
-            <label for="dogName" class="me-2">Dog's Name:</label>
+            <label for="dogName" class="me-2">Add new dog:</label>
             <input type="text" id="dogName" name="dogName" class="form-control me-2" required placeholder="For example: Border">
             <br>
             <button type="submit" class="btn btn-primary">Submit</button>

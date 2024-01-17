@@ -15,6 +15,42 @@
         Go back
     </a>
 
+
+        <div class="mb-3">
+        <label for="dogName" class="form-label" style="font-weight: bold">Dog's Name:</label>
+        <select id="dogName" name="name" onchange="filterDogs()" class="form-select">
+            <option value="all">All</option>
+            <option th:each="dogName : ${names}" th:value="${dogName}" th:text="${dogName}"></option>
+        </select>
+        </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="energyFilter" class="form-label" style="font-weight: bold">Select Energy Level:</label>
+            <select id="energyFilter" class="form-select" onchange="filterDogs()">
+                <option value="all">All</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="childrenFilter" class="form-label" style="font-weight: bold">Select Good with Children Level:</label>
+            <select id="childrenFilter" class="form-select" onchange="filterDogs()">
+                <option value="all">All</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+    </div>
+
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
         <tr>
@@ -28,7 +64,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="tempDog : ${dogs}" >
+        <tr th:each="tempDog : ${dogs}" class="dog-row" >
             <td th:text="${tempDog.name}"/>
             <td th:text="${tempDog.playfulness}"/>
             <td th:text="${tempDog.goodWithChildren}"/>
@@ -43,5 +79,29 @@
 
     </table>
 </div>
+
+<script>
+    function filterDogs() {
+        var selectedEnergy = document.getElementById("energyFilter").value;
+        var selectedChildren = document.getElementById("childrenFilter").value;
+        var dogRows = document.getElementsByClassName("dog-row");
+        var dogName = document.getElementById("dogName").value;
+
+        for (var i = 0; i < dogRows.length; i++) {
+            var energyCell = dogRows[i].getElementsByTagName("td")[4];
+            var childrenCell = dogRows[i].getElementsByTagName("td")[2];
+            var nameCell = dogRows[i].getElementsByTagName("td")[0];
+
+            var energyMatch = selectedEnergy === "all" || energyCell.innerText === selectedEnergy;
+            var childrenMatch = selectedChildren === "all" || childrenCell.innerText === selectedChildren;
+            var name =  dogName === "all" || nameCell.innerText === dogName;
+            if (energyMatch && childrenMatch && name) {
+                dogRows[i].style.display = "";
+            } else {
+                dogRows[i].style.display = "none";
+            }
+        }
+    }
+</script>
 </body>
 </html>

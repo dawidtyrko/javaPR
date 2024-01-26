@@ -38,6 +38,9 @@
                    onclick="if (!(confirm('Are you sure?'))) return false">
                     Enable
                 </a>
+                <a th:href="@{/admin/details(username=${tempUser.username})}" class="btn btn-info btn-sm">
+                    details
+                </a>
             </td>
         </tr>
         </tbody>

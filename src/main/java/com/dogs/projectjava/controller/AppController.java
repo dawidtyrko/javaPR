@@ -5,6 +5,7 @@ import com.dogs.projectjava.entity.DogEntity;
 import com.dogs.projectjava.entity.User;
 import com.dogs.projectjava.service.DogApi;
 import com.dogs.projectjava.service.DogService;
+import com.dogs.projectjava.service.UserDetailsService;
 import com.dogs.projectjava.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,17 @@ public class AppController {
     private final DogService dogService;
     private Dog dog;
     private final UserService userService;
+
+    private final UserDetailsService userDetailsService;
     @Autowired
-    public AppController(DogService dogService, UserService userService) {
+    public AppController(DogService dogService, UserService userService, UserDetailsService userDetailsService) {
         this.dogService = dogService;
         this.userService = userService;
+        this.userDetailsService = userDetailsService;
     }
 
     @GetMapping("/")
-    public String showHome(){
+    public String showHome(Model model){
         return "home";
     }
 
@@ -43,17 +47,25 @@ public class AppController {
             return "dogs";
         }
     }
-//    @GetMapping("/list/{name}")
-//    public String newDog(@PathVariable String name,Model model){
-//
-//            DogEntity dog = dogService.findDogByName(name);
-//            if(dog != null){
-//                model.addAttribute("dog",dog);
-//                return "dog-from-list";
-//            }else{
-//                return "show-dogs";
-//            }
-//    }
+    @PostMapping("/list")
+    public String newDog(@RequestParam(name = "dogNameSearch") String name,Model model){
+        System.out.println(name);
+        try{
+            String nameTrimmed = name.replace("+","").trim().toLowerCase();
+            List<DogEntity> dogEntityList = dogService.getAllDogs();
+            var searchedDog = dogEntityList.stream().filter(dogEntity -> dogEntity.getName().trim().toLowerCase().contains(nameTrimmed)).findFirst().orElseThrow(null);
+            if(searchedDog != null){
+                model.addAttribute("dog",searchedDog);
+                return "dog-from-list";
+            }else{
+                model.addAttribute("searchedDog",name);
+                return "not-found";
+            }
+        }catch (Exception e){
+            model.addAttribute("searchedDog",name);
+            return "not-found";
+        }
+    }
 
 
     @GetMapping("/admin/list")
@@ -93,6 +105,15 @@ public class AppController {
     public String enableUser(@RequestParam("username")String username){
         userService.enableByUsername(username);
         return "redirect:/admin/list";
+    }
+
+    @GetMapping("/admin/details")
+    public String userDetails(@RequestParam("username")String username,Model model){
+        var userDetails = userDetailsService.getUserDetails(username);
+        var user = userService.findByUsername(username);
+        model.addAttribute("userDetails",userDetails);
+        model.addAttribute("user",user);
+        return "user-details";
     }
 
 

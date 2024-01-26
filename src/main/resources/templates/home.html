@@ -44,13 +44,24 @@
             <br><br>
         <p class="mb-0"> Roles: <span sec:authentication="principal.authorities"></span></p>
     </div>
-
+    <br>
+    <hr>
+    <div class="mb-4">
+        <form id="searchForm" th:action="@{/list}" method="post">
+            <label for="dogNameSearch" class="me-2">Search for dog:</label>
+            <input type="text" id="dogNameSearch" name="dogNameSearch"  required class="form-control me-2" placeholder="Enter name of the dog">
+            <br>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+    <br>
+    <hr>
     <nav class="mb-4">
         <a th:href="@{/list}" class="btn btn-primary custom-nav-link">Show dogs</a>
         <a sec:authorize="hasRole('ADMIN')" th:href="@{admin/list}" class="btn btn-primary custom-nav-link">Show users list</a>
         <a sec:authorize="hasRole('ADMIN')" th:href="@{admin/dogList}" class="btn btn-primary custom-nav-link">Show dogs list</a>
     </nav>
-
+    <hr>
     <div class="mb-4" sec:authorize="hasRole('MANAGER')">
         <form th:action="@{/system/dogs}" method="post" class="form-inline">
             <label for="dogName" class="me-2">Add new dog:</label>
@@ -61,7 +72,6 @@
     </div>
 
     <br><br>
-
 
 </body>
 </html>

@@ -44,4 +44,7 @@ public class UserService {
             throw new EntityNotFoundException("User with username " + username + " not found");
         }
     }
+    public User findByUsername(String username){
+        return userRepository.findByUsername(username);
+    }
 }

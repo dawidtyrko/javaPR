@@ -5,6 +5,7 @@ import com.dogs.projectjava.repo.UserDetailsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,5 +15,10 @@ public class UserDetailsService {
 
     public UserDetails getUserDetails(String username){
         return userDetailsRepository.getAllUserDetailsWithUser(username);
+    }
+
+    @Transactional
+    public UserDetails saveUserDetails(UserDetails userDetails){
+        return  userDetailsRepository.save(userDetails);
     }
 }

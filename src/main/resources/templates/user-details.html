@@ -10,7 +10,9 @@
 
     <div class="container mt-5">
         <h1 class="mb-4">User Details</h1>
-
+        <a th:href="@{/admin/list}" class="btn btn-primary btn-sm mb-3">
+            Go back
+        </a>
         <div class="card">
             <div class="card-body">
                 <p class="card-text"><strong>Username:</strong> <span th:text="${userDetails.username}"></span></p>
@@ -22,8 +24,6 @@
             </div>
         </div>
     </div>
-    <a th:href="@{/admin/list}" class="btn btn-primary btn-sm mb-3">
-        Go back
-    </a>
+
 </body>
 </html>

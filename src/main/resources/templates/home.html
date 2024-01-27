@@ -40,15 +40,15 @@
 
     <div class="user-info">
 
-        <p class="mb-0"> User: <span sec:authentication="principal.username"></span></p>
+        <p class="mb-0" style="font-weight: bolder"> User: <span sec:authentication="principal.username"></span></p>
             <br><br>
-        <p class="mb-0"> Roles: <span sec:authentication="principal.authorities"></span></p>
+        <p class="mb-0" style="font-weight: bolder"> Roles: <span sec:authentication="principal.authorities"></span></p>
     </div>
     <br>
     <hr>
     <div class="mb-4">
         <form id="searchForm" th:action="@{/list}" method="post">
-            <label for="dogNameSearch" class="me-2">Search for dog:</label>
+            <label for="dogNameSearch" class="me-2" style="font-weight: bolder">Search for dog:</label>
             <input type="text" id="dogNameSearch" name="dogNameSearch"  required class="form-control me-2" placeholder="Enter name of the dog">
             <br>
             <button type="submit" class="btn btn-primary">Search</button>
@@ -56,6 +56,7 @@
     </div>
     <br>
     <hr>
+    <h2>Actions</h2>
     <nav class="mb-4">
         <a th:href="@{/list}" class="btn btn-primary custom-nav-link">Show dogs</a>
         <a sec:authorize="hasRole('ADMIN')" th:href="@{admin/list}" class="btn btn-primary custom-nav-link">Show users list</a>
@@ -64,7 +65,7 @@
     <hr>
     <div class="mb-4" sec:authorize="hasRole('MANAGER')">
         <form th:action="@{/system/dogs}" method="post" class="form-inline">
-            <label for="dogName" class="me-2">Add new dog:</label>
+            <label for="dogName" class="me-2" style="font-weight: bolder">Add new dog:</label>
             <input type="text" id="dogName" name="dogName" class="form-control me-2" required placeholder="For example: Border">
             <br>
             <button type="submit" class="btn btn-primary">Submit</button>

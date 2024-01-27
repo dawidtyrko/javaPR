@@ -3,12 +3,14 @@ package com.dogs.projectjava.controller;
 import com.dogs.projectjava.entity.Dog;
 import com.dogs.projectjava.entity.DogEntity;
 import com.dogs.projectjava.entity.User;
+import com.dogs.projectjava.entity.UserDetails;
 import com.dogs.projectjava.service.DogApi;
 import com.dogs.projectjava.service.DogService;
 import com.dogs.projectjava.service.UserDetailsService;
 import com.dogs.projectjava.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,10 @@ public class AppController {
     private final UserService userService;
 
     private final UserDetailsService userDetailsService;
+
+    @Value("${countries}")
+    private List<String> countries;
+
     @Autowired
     public AppController(DogService dogService, UserService userService, UserDetailsService userDetailsService) {
         this.dogService = dogService;
@@ -116,5 +122,20 @@ public class AppController {
         return "user-details";
     }
 
+    @GetMapping("/admin/updateForm")
+    public String updateForm(@RequestParam("username") String username, Model model){
+
+        var user = userService.findByUsername(username);
+        var userDetails = userDetailsService.getUserDetails(username);
+        model.addAttribute("userDetails",userDetails);
+        model.addAttribute("userToUpdate",user);
+        model.addAttribute("countries",countries);
+        return "user-update";
+    }
+    @PostMapping("/admin/save")
+    public String saveUser(@ModelAttribute("userDetails") UserDetails userDetails){
+        userDetailsService.saveUserDetails(userDetails);
+        return "redirect:/admin/list";
+    }
 
 }

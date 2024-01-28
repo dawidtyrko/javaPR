@@ -99,8 +99,15 @@ public class AppController {
     }
     @GetMapping("/admin/delete")
     public String deleteDog(@RequestParam("dogId") int id){
-        dogService.deleteById(id);
-        return "redirect:/admin/dogList";
+        var dogs = dogService.getAllDogs();
+        var dog = dogs.stream().filter(dogEntity -> dogEntity.getId() == id).findFirst().orElseThrow(null);
+        if(dog != null){
+            dogService.deleteById(id);
+            return "redirect:/admin/dogList";
+        }
+        else {
+            return "redirect:/admin/dogList";
+        }
     }
     @GetMapping("/admin/disable")
     public String disableUser(@RequestParam("username")String username){

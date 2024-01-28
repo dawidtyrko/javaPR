@@ -26,4 +26,13 @@ public class User {
 
     @Column(name = "enabled")
     private int enabled;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private UserDetails userDetails;
+
+    public User(String username, String password, int enabled) {
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+    }
 }

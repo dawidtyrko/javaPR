@@ -1,6 +1,7 @@
 package com.dogs.projectjava.controller;
 
 import com.dogs.projectjava.Dto.DogDto;
+import com.dogs.projectjava.entity.Dog;
 import com.dogs.projectjava.exceptionHandler.ErrorResponse;
 import com.dogs.projectjava.mapper.DogMapper;
 import com.dogs.projectjava.service.DogApi;
@@ -8,10 +9,7 @@ import com.dogs.projectjava.service.DogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,7 +45,7 @@ public class DogController {
         }
     }
 
-    @GetMapping(value = "/delete/{dogName}",produces = "application/json")
+    @DeleteMapping(value = "/{dogName}",produces = "application/json")
     public ResponseEntity<?> deleteDog(@PathVariable String dogName){
         try{
             String nameTrimmed = dogName.replace("+","").trim().toLowerCase();
@@ -63,4 +61,16 @@ public class DogController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("An unexpected error occurred"));
         }
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<String> addDog(@RequestBody Dog dog) {
+
+        System.out.println("Received Dog: " + dog);
+
+
+        dogService.saveDogToDatabase(dog);
+
+        return new ResponseEntity<>("Dog added successfully", HttpStatus.CREATED);
+    }
+
 }

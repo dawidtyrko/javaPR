@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface UserDetailsRepository extends JpaRepository<UserDetails,Integer> {
-    @Query("SELECT ud FROM UserDetails ud WHERE ud.username = :usern")
-    UserDetails getAllUserDetailsWithUser(@Param("usern")String username);
+    @Query("SELECT ud FROM UserDetails ud WHERE ud.username = :username")
+    UserDetails getAllUserDetailsWithUser(@Param("username")String username);
 }

@@ -7,19 +7,20 @@ import com.dogs.projectjava.mapper.UserMapper;
 import com.dogs.projectjava.repo.UserRepository;
 import com.dogs.projectjava.service.UserDetailsService;
 import com.dogs.projectjava.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,20 +31,29 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @ComponentScan(basePackages = "com.dogs.projectjava")
-public class UserControllerTest {
-    @Mock
-    private  UserRepository userRepository;
-    @Mock
-    private UserService userService;
+@AutoConfigureMockMvc
 
-    @Mock
+public class UserControllerTest {
+
+    @MockBean
+    private UserRepository userRepository;
+
+    @MockBean
+    private  UserService userService;
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
     private UserDetailsService userDetailsService;
 
-    @Mock
+    @MockBean
     private UserMapper userMapper;
 
-    @InjectMocks
+    @Autowired
     private UserController userController;
+
+
 
     @BeforeEach
     public void setup() {
@@ -67,11 +77,11 @@ public class UserControllerTest {
         when(userMapper.entityToDetails(user2)).thenReturn(userDto2);
 
 
-//        ResponseEntity<List<UserDto>> responseEntity = userController.getAllUsers();
-//
-//
-//        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-//        assertThat(responseEntity.getBody()).isEqualTo(userDtos);
+        ResponseEntity<List<UserDto>> responseEntity = userController.getAllUsers();
+
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody()).isEqualTo(userDtos);
     }
 
     @Test
@@ -85,10 +95,10 @@ public class UserControllerTest {
         when(userMapper.entityToDetails(user)).thenReturn(userDto);
 
 
-        //ResponseEntity<UserDto> responseEntity = userController.getUser(username);
+        ResponseEntity<?> responseEntity =  userController.getUser(username);
 
 
-//        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-//        assertThat(responseEntity.getBody()).isEqualTo(userDto);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody()).isEqualTo(userDto);
     }
 }

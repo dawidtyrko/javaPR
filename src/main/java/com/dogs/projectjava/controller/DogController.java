@@ -46,4 +46,21 @@ public class DogController {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("An unexpected error occurred"));
         }
     }
+
+    @GetMapping(value = "/delete/{dogName}",produces = "application/json")
+    public ResponseEntity<?> deleteDog(@PathVariable String dogName){
+        try{
+            String nameTrimmed = dogName.replace("+","").trim().toLowerCase();
+            var dog = dogService.getAllDogs().stream().filter(dogEntity -> dogEntity.getName().trim().toLowerCase().contains(nameTrimmed)).findFirst();
+            if(dog.isPresent()){
+                dogService.deleteById(dog.get().getId());
+                return ResponseEntity.status(HttpStatus.ACCEPTED).body("Deleted object successfully");
+            }else{
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("Dog not found"));
+            }
+
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("An unexpected error occurred"));
+        }
+    }
 }

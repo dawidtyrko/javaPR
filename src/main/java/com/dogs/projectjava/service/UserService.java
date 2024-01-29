@@ -1,6 +1,7 @@
 package com.dogs.projectjava.service;
 
 import com.dogs.projectjava.entity.User;
+import com.dogs.projectjava.exceptionHandler.UserNotFoundException;
 import com.dogs.projectjava.repo.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.TypedQuery;
@@ -30,7 +31,7 @@ public class UserService {
             userToDisable.setEnabled(0);
             userRepository.save(userToDisable);
         } else {
-            throw new EntityNotFoundException("User with username " + username + " not found");
+            throw new UserNotFoundException("User with username " + username + " not found");
         }
     }
     @Transactional
@@ -41,7 +42,7 @@ public class UserService {
             userToEnable.setEnabled(1);
             userRepository.save(userToEnable);
         } else {
-            throw new EntityNotFoundException("User with username " + username + " not found");
+            throw new UserNotFoundException("User with username " + username + " not found");
         }
     }
     public User findByUsername(String username){

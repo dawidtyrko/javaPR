@@ -36,4 +36,12 @@ public class DogEntity {
     @Column(name = "energy")
     private int energy;
 
+    public DogEntity(String name, String imageLink, int playfulness, int goodWithChildren, int goodWithOtherDogs, int energy) {
+        this.name = name;
+        this.imageLink = imageLink;
+        this.playfulness = playfulness;
+        this.goodWithChildren = goodWithChildren;
+        this.goodWithOtherDogs = goodWithOtherDogs;
+        this.energy = energy;
+    }
 }

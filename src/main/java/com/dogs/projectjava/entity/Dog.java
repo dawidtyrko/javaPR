@@ -13,6 +13,9 @@ public class Dog {
 
     @JsonProperty("image_link")
     private String imageLink;
+
+
+
     public String getImageLink() {
         return imageLink;
     }

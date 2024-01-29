@@ -4,11 +4,11 @@ import com.dogs.projectjava.entity.Dog;
 import com.dogs.projectjava.entity.DogEntity;
 import com.dogs.projectjava.entity.User;
 import com.dogs.projectjava.entity.UserDetails;
+import com.dogs.projectjava.mapper.DogMapper;
 import com.dogs.projectjava.service.DogApi;
 import com.dogs.projectjava.service.DogService;
 import com.dogs.projectjava.service.UserDetailsService;
 import com.dogs.projectjava.service.UserService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class AppController {
@@ -24,15 +25,18 @@ public class AppController {
     private Dog dog;
     private final UserService userService;
 
+    private final DogMapper dogMapper;
+
     private final UserDetailsService userDetailsService;
 
     @Value("${countries}")
     private List<String> countries;
 
     @Autowired
-    public AppController(DogService dogService, UserService userService, UserDetailsService userDetailsService) {
+    public AppController(DogService dogService, UserService userService, DogMapper dogMapper, UserDetailsService userDetailsService) {
         this.dogService = dogService;
         this.userService = userService;
+        this.dogMapper = dogMapper;
         this.userDetailsService = userDetailsService;
     }
 
@@ -85,8 +89,9 @@ public class AppController {
     public String showAllDogs(Model model){
         List<DogEntity> dogEntityList = dogService.getAllDogs();
         List<String> dogNames = dogService.findDistinctNames();
+        var dogDtoList = dogEntityList.stream().map(dogMapper::toDto).toList();
         model.addAttribute("names",dogNames);
-        model.addAttribute("dogs", dogEntityList);
+        model.addAttribute("dogs", dogDtoList);
         return "show-dogs";
     }
     @GetMapping("/admin/dogList")

@@ -13,7 +13,7 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException e){
-        ErrorResponse errorResponse = new ErrorResponse(Instant.now(), e.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 }
